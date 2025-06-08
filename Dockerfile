@@ -4,10 +4,11 @@ WORKDIR /app
 
 # Copia a solução e os arquivos de projeto
 COPY ./TaskHive.sln ./
-COPY ./TaskHive.API/TaskHive.API.csproj ./TaskHive.API/
-COPY ./TaskHive.Application/TaskHive.Application.csproj ./TaskHive.Application/
-COPY ./TaskHive.Domain/TaskHive.Domain.csproj ./TaskHive.Domain/
-COPY ./TaskHive.Infra/TaskHive.Infra.csproj ./TaskHive.Infra/
+COPY ./src/TaskHive.API/TaskHive.API.csproj ./src/TaskHive.API/
+COPY ./src/TaskHive.Application/TaskHive.Application.csproj ./src/TaskHive.Application/
+COPY ./src/TaskHive.Domain/TaskHive.Domain.csproj ./src/TaskHive.Domain/
+COPY ./src/TaskHive.Infra/TaskHive.Infra.csproj ./src/TaskHive.Infra/
+COPY ./tests/TaskHive.UnitTests/TaskHive.UnitTests.csproj ./tests/TaskHive.UnitTests/
 
 # Restaura dependências
 RUN dotnet restore
@@ -16,7 +17,7 @@ RUN dotnet restore
 COPY . .
 
 # Publica a aplicação
-RUN dotnet publish ./TaskHive.API/TaskHive.API.csproj -c Release -o /app/publish
+RUN dotnet publish ./src/TaskHive.API/TaskHive.API.csproj -c Release -o /app/publish
 
 # Etapa de runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
