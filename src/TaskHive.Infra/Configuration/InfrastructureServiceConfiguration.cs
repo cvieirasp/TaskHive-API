@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using Resend;
+using System;
 using System.Text;
 using TaskHive.Domain.Repositories;
 using TaskHive.Domain.Services;
@@ -19,8 +20,16 @@ public static class InfrastructureServiceConfiguration
         // Register Npgsql connection as scoped
         services.AddScoped(sp =>
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection")
-                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            //var url = configuration.GetConnectionString("LOCAL_CONNECTION")
+            //    ?? throw new InvalidOperationException("Connection string 'LOCAL_CONNECTION' not found.");
+
+            var url = configuration["DATABASE_URL"] ?? throw new InvalidOperationException("Database URL 'DATABASE_URL' not found.");
+
+            // Convert Heroku-style format to Npgsql format.
+            var uri = new Uri(url);
+            var userInfo = uri.UserInfo.Split(':');
+
+            var connectionString = $"Host={uri.Host};Port={uri.Port};Username={userInfo[0]};Password={userInfo[1]};Database={uri.AbsolutePath.TrimStart('/')};Ssl Mode=Require;Trust Server Certificate=true;";
             return new NpgsqlConnection(connectionString);
         });
 

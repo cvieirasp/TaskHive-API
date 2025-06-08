@@ -20,7 +20,7 @@ public class PostgresUserRepository(NpgsqlConnection connection) : BaseRepositor
             FROM users
             WHERE id = @Id";
 
-        using var command = new NpgsqlCommand(sql, _connection);
+        using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.AddWithValue("Id", id);
 
         using var reader = await command.ExecuteReaderAsync(cancellationToken);
@@ -41,7 +41,7 @@ public class PostgresUserRepository(NpgsqlConnection connection) : BaseRepositor
             FROM users
             WHERE email = @Email";
 
-        using var command = new NpgsqlCommand(sql, _connection);
+        using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.AddWithValue("Email", email.ToLowerInvariant());
 
         using var reader = await command.ExecuteReaderAsync(cancellationToken);
@@ -57,7 +57,7 @@ public class PostgresUserRepository(NpgsqlConnection connection) : BaseRepositor
 
         const string sql = "SELECT EXISTS(SELECT 1 FROM users WHERE email = @Email)";
 
-        using var command = new NpgsqlCommand(sql, _connection);
+        using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.AddWithValue("Email", email.ToLowerInvariant());
 
         var result = await command.ExecuteScalarAsync(cancellationToken);
@@ -79,7 +79,7 @@ public class PostgresUserRepository(NpgsqlConnection connection) : BaseRepositor
                           is_email_verified, two_factor_enabled, is_active,
                           oauth_provider, oauth_id, created_at, updated_at";
 
-            using var command = new NpgsqlCommand(sql, _connection, transaction);
+            using var command = new NpgsqlCommand(sql, connection, transaction);
             UserMapping.AddParameters(command, user);
 
             using var reader = await command.ExecuteReaderAsync(cancellationToken);
@@ -100,7 +100,7 @@ public class PostgresUserRepository(NpgsqlConnection connection) : BaseRepositor
                     updated_at = @UpdatedAt
                 WHERE id = @Id";
 
-            using var command = new NpgsqlCommand(sql, _connection, transaction);
+            using var command = new NpgsqlCommand(sql, connection, transaction);
             command.Parameters.AddWithValue("Id", user.Id);
             command.Parameters.AddWithValue("IsEmailVerified", user.IsEmailVerified);
             command.Parameters.AddWithValue("UpdatedAt", user.UpdatedAt);
@@ -129,11 +129,11 @@ public class PostgresUserRepository(NpgsqlConnection connection) : BaseRepositor
             OFFSET @Offset";
 
         // Get total count
-        using var countCommand = new NpgsqlCommand(countSql, _connection);
+        using var countCommand = new NpgsqlCommand(countSql, connection);
         var totalCount = Convert.ToInt32(await countCommand.ExecuteScalarAsync(cancellationToken));
 
         // Get paginated data
-        using var dataCommand = new NpgsqlCommand(dataSql, _connection);
+        using var dataCommand = new NpgsqlCommand(dataSql, connection);
         dataCommand.Parameters.AddWithValue("PageSize", pageSize);
         dataCommand.Parameters.AddWithValue("Offset", (pageNumber - 1) * pageSize);
 

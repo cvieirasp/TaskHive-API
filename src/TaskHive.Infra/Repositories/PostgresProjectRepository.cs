@@ -20,7 +20,7 @@ public class PostgresProjectRepository(NpgsqlConnection connection) : BaseReposi
             FROM projects
             WHERE id = @Id";
 
-        using var command = new NpgsqlCommand(sql, _connection);
+        using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.AddWithValue("Id", id);
 
         using var reader = await command.ExecuteReaderAsync(cancellationToken);
@@ -36,7 +36,7 @@ public class PostgresProjectRepository(NpgsqlConnection connection) : BaseReposi
 
         const string sql = "SELECT EXISTS(SELECT 1 FROM projects WHERE id = @Id)";
 
-        using var command = new NpgsqlCommand(sql, _connection);
+        using var command = new NpgsqlCommand(sql, connection);
         command.Parameters.AddWithValue("Id", id);
 
         var result = await command.ExecuteScalarAsync(cancellationToken);
@@ -55,7 +55,7 @@ public class PostgresProjectRepository(NpgsqlConnection connection) : BaseReposi
                 RETURNING id, owner_id, title, description, start_date, end_date, 
                           project_status, project_type, completed_at, created_at, updated_at";
 
-            using var command = new NpgsqlCommand(sql, _connection, transaction);
+            using var command = new NpgsqlCommand(sql, connection, transaction);
             ProjectMapping.AddParameters(command, project);
 
             using var reader = await command.ExecuteReaderAsync(cancellationToken);
@@ -85,12 +85,12 @@ public class PostgresProjectRepository(NpgsqlConnection connection) : BaseReposi
             OFFSET @Offset";
 
         // Get total count
-        using var countCommand = new NpgsqlCommand(countSql, _connection);
+        using var countCommand = new NpgsqlCommand(countSql, connection);
         countCommand.Parameters.AddWithValue("OwnerId", ownerId);
         var totalCount = Convert.ToInt32(await countCommand.ExecuteScalarAsync(cancellationToken));
 
         // Get paginated data
-        using var dataCommand = new NpgsqlCommand(dataSql, _connection);
+        using var dataCommand = new NpgsqlCommand(dataSql, connection);
         dataCommand.Parameters.AddWithValue("OwnerId", ownerId);
         dataCommand.Parameters.AddWithValue("PageSize", pageSize);
         dataCommand.Parameters.AddWithValue("Offset", (pageNumber - 1) * pageSize);

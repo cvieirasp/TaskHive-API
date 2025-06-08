@@ -2,28 +2,22 @@ using Npgsql;
 
 namespace TaskHive.Infrastructure.Repositories;
 
-public abstract class BaseRepository : IDisposable
+public abstract class BaseRepository(NpgsqlConnection connection) : IDisposable
 {
-    protected readonly NpgsqlConnection _connection;
     private bool _disposed;
-
-    protected BaseRepository(NpgsqlConnection connection)
-    {
-        _connection = connection;
-    }
 
     protected async Task EnsureConnectionOpenAsync(CancellationToken cancellationToken = default)
     {
-        if (_connection.State != System.Data.ConnectionState.Open)
+        if (connection.State != System.Data.ConnectionState.Open)
         {
-            await _connection.OpenAsync(cancellationToken);
+            await connection.OpenAsync(cancellationToken);
         }
     }
 
     protected async Task<NpgsqlTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
         await EnsureConnectionOpenAsync(cancellationToken);
-        return await _connection.BeginTransactionAsync(cancellationToken);
+        return await connection.BeginTransactionAsync(cancellationToken);
     }
 
     protected async Task<T> ExecuteInTransactionAsync<T>(
@@ -56,7 +50,7 @@ public abstract class BaseRepository : IDisposable
         {
             if (disposing)
             {
-                _connection.Dispose();
+                connection.Dispose();
             }
             _disposed = true;
         }
