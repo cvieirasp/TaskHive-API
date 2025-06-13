@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F9F0AE45
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskHive.UnitTests", "tests\TaskHive.UnitTests\TaskHive.UnitTests.csproj", "{0BFB2301-442D-4495-A91F-05B3F7AB0262}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskHive.UnitTest", "TaskHive.UnitTest", "{79D78F9E-01BA-4C58-B5CE-5285802902B0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskHive.UnitTests", "TaskHive.UnitTests", "{79D78F9E-01BA-4C58-B5CE-5285802902B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskHive.IntegrationTests", "TaskHive.IntegrationTests", "{9E645DE6-DAEA-496C-9CD2-FAC4CC92061E}"
 EndProject
