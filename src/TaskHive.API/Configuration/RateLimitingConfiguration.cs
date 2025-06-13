@@ -19,8 +19,9 @@ public static class RateLimitingConfiguration
             options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
             {
                 var settings = context.RequestServices.GetRequiredService<IOptions<RateLimitingSettings>>().Value;
+                var clientIp = context.Request.Headers["X-Forwarded-For"].FirstOrDefault() ?? context.Connection.RemoteIpAddress?.ToString() ?? "anonymous";
                 return RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: context.User.Identity?.Name ?? context.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
+                    partitionKey: clientIp,
                     factory: partition => new FixedWindowRateLimiterOptions
                     {
                         AutoReplenishment = true,
@@ -33,8 +34,9 @@ public static class RateLimitingConfiguration
             options.AddPolicy("SignInPolicy", httpContext =>
             {
                 var settings = httpContext.RequestServices.GetRequiredService<IOptions<RateLimitingSettings>>().Value;
+                var clientIp = httpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault() ?? httpContext.Connection.RemoteIpAddress?.ToString() ?? "anonymous";
                 return RateLimitPartition.GetFixedWindowLimiter(
-                    partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
+                    partitionKey: clientIp,
                     factory: partition => new FixedWindowRateLimiterOptions
                     {
                         AutoReplenishment = true,
