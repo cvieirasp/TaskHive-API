@@ -9,6 +9,7 @@ COPY ./src/TaskHive.Application/TaskHive.Application.csproj ./src/TaskHive.Appli
 COPY ./src/TaskHive.Domain/TaskHive.Domain.csproj ./src/TaskHive.Domain/
 COPY ./src/TaskHive.Infra/TaskHive.Infra.csproj ./src/TaskHive.Infra/
 COPY ./tests/TaskHive.UnitTests/TaskHive.UnitTests.csproj ./tests/TaskHive.UnitTests/
+COPY ./tests/TaskHive.IntegrationTests/TaskHive.IntegrationTests.csproj ./tests/TaskHive.IntegrationTests/
 
 # Restaura dependências
 RUN dotnet restore
