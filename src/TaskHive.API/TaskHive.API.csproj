@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.test.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.16" />
   </ItemGroup>
@@ -24,12 +20,6 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="Tests" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Include="appsettings.test.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
 </Project>
