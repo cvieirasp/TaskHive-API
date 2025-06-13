@@ -40,4 +40,11 @@ public interface IUserRepository
         int pageNumber = 1,
         int pageSize = 10,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Delete user by ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 } 

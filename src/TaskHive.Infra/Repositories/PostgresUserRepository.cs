@@ -1,5 +1,6 @@
-using System.Data;
 using Npgsql;
+using System.Data;
+using System.Threading;
 using TaskHive.Domain.Common;
 using TaskHive.Domain.Entities;
 using TaskHive.Domain.Repositories;
@@ -149,5 +150,19 @@ public class PostgresUserRepository(NpgsqlConnection connection) : BaseRepositor
             pageNumber,
             pageSize,
             totalCount);
+    }
+
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        await ExecuteInTransactionAsync(async transaction =>
+        {
+            const string sql = @"DELETE FROM users WHERE id = @Id";
+
+            using var command = new NpgsqlCommand(sql, connection, transaction);
+            command.Parameters.AddWithValue("Id", id);
+
+            var deleted = await command.ExecuteNonQueryAsync(cancellationToken);
+            return (deleted > 0);
+        }, cancellationToken);
     }
 } 

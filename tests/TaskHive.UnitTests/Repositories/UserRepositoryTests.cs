@@ -175,4 +175,18 @@ public class UserRepositoryTests
             It.IsAny<int>(),
             It.IsAny<CancellationToken>()), Times.Once);
     }
+
+    [Fact]
+    public async Task DeleteAsync_ShouldDeleteUserById()
+    {
+        // Arrange
+        _repositoryMock.Setup(r => r.DeleteAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        // Act
+        await _repository.DeleteAsync(_testUser.Id);
+
+        // Assert
+        _repositoryMock.Verify(r => r.DeleteAsync(_testUser.Id, It.IsAny<CancellationToken>()), Times.Once);
+    }
 } 

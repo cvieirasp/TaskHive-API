@@ -3,6 +3,7 @@ using TaskHive.Application.UseCases.Projects;
 using TaskHive.Application.UseCases.Users;
 using TaskHive.Infrastructure.Configuration;
 using TaskHive.API.Middleware;
+using TaskHive.API.Configuration;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,11 +16,15 @@ builder.Services.AddControllers()
      });
 
 // Add infrastructure services
-builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment);
+
+// Add rate limiting
+builder.Services.AddRateLimitingServices(builder.Configuration);
 
 // Add use cases
-builder.Services.AddScoped<SignUpUseCase>();
 builder.Services.AddScoped<SignInUseCase>();
+builder.Services.AddScoped<SignUpUseCase>();
+builder.Services.AddScoped<DeleteUserUseCase>();
 builder.Services.AddScoped<CreateProjectUseCase>();
 builder.Services.AddScoped<ListProjectsUseCase>();
 builder.Services.AddScoped<SendVerificationEmailUseCase>();
@@ -117,6 +122,9 @@ app.Use(async (context, next) =>
 
 app.UseHttpsRedirection();
 
+// Add rate limiting middleware
+app.UseRateLimiter();
+
 // Add error handling middleware
 app.UseErrorHandling();
 
@@ -132,3 +140,5 @@ app.MapHealthChecks("/health");
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

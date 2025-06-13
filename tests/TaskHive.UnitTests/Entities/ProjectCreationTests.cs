@@ -27,7 +27,7 @@ public class ProjectCreationTests
         var description = "A comprehensive task management solution";
         var startDate = DateTime.UtcNow;
         var endDate = startDate.AddMonths(3);
-        var projectType = ProjectType.Professional;
+        var projectType = ProjectType.PROFESSIONAL;
 
         // Act
         var project = Project.Create(
@@ -47,7 +47,7 @@ public class ProjectCreationTests
         project.StartDate.Should().Be(startDate);
         project.EndDate.Should().Be(endDate);
         project.ProjectType.Should().Be(projectType);
-        project.ProjectStatus.Should().Be(ProjectStatus.NotStarted);
+        project.ProjectStatus.Should().Be(ProjectStatus.NOT_STARTED);
     }
 
     [Theory]
@@ -69,7 +69,7 @@ public class ProjectCreationTests
                 description: description,
                 startDate: startDate,
                 endDate: endDate,
-                projectType: ProjectType.Professional
+                projectType: ProjectType.PROFESSIONAL
             )
         );
 
@@ -93,7 +93,7 @@ public class ProjectCreationTests
                 description: description,
                 startDate: startDate,
                 endDate: endDate,
-                projectType: ProjectType.Professional
+                projectType: ProjectType.PROFESSIONAL
             )
         );
 
@@ -110,14 +110,14 @@ public class ProjectCreationTests
             description: "A comprehensive task management solution",
             startDate: DateTime.UtcNow,
             endDate: DateTime.UtcNow.AddMonths(3),
-            projectType: ProjectType.Professional
+            projectType: ProjectType.PROFESSIONAL
         );
 
         // Act
-        project.UpdateStatus(ProjectStatus.InProgress);
+        project.UpdateStatus(ProjectStatus.IN_PROGRESS);
 
         // Assert
-        project.ProjectStatus.Should().Be(ProjectStatus.InProgress);
+        project.ProjectStatus.Should().Be(ProjectStatus.IN_PROGRESS);
         project.UpdatedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
     }
 
@@ -131,7 +131,7 @@ public class ProjectCreationTests
             description: "A comprehensive task management solution",
             startDate: DateTime.UtcNow,
             endDate: DateTime.UtcNow.AddMonths(3),
-            projectType: ProjectType.Professional
+            projectType: ProjectType.PROFESSIONAL
         );
 
         var newStartDate = DateTime.UtcNow.AddDays(1);
@@ -156,7 +156,7 @@ public class ProjectCreationTests
             description: "A comprehensive task management solution",
             startDate: DateTime.UtcNow,
             endDate: DateTime.UtcNow.AddMonths(3),
-            projectType: ProjectType.Professional
+            projectType: ProjectType.PROFESSIONAL
         );
 
         var newStartDate = DateTime.UtcNow.AddDays(1);
@@ -180,14 +180,14 @@ public class ProjectCreationTests
             description: "A comprehensive task management solution",
             startDate: DateTime.UtcNow,
             endDate: DateTime.UtcNow.AddMonths(3),
-            projectType: ProjectType.Professional
+            projectType: ProjectType.PROFESSIONAL
         );
 
         // Act
         project.Complete();
 
         // Assert
-        project.ProjectStatus.Should().Be(ProjectStatus.Completed);
+        project.ProjectStatus.Should().Be(ProjectStatus.COMPLETED);
         project.CompletedAt.Should().NotBeNull();
         project.CompletedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         project.UpdatedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
@@ -203,7 +203,7 @@ public class ProjectCreationTests
             description: "A comprehensive task management solution",
             startDate: DateTime.UtcNow,
             endDate: DateTime.UtcNow.AddMonths(3),
-            projectType: ProjectType.Professional
+            projectType: ProjectType.PROFESSIONAL
         );
 
         project.Complete();

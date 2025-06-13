@@ -35,7 +35,7 @@ public class ProjectRepositoryTests
             description: "Test Description",
             startDate: DateTime.UtcNow,
             endDate: DateTime.UtcNow.AddMonths(1),
-            projectType: ProjectType.Professional
+            projectType: ProjectType.PROFESSIONAL
         );
 
         _repositoryMock.Setup(r => r.AddAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()))
@@ -62,7 +62,7 @@ public class ProjectRepositoryTests
             description: "Test Description",
             startDate: DateTime.UtcNow,
             endDate: DateTime.UtcNow.AddMonths(1),
-            ProjectType.Professional
+            ProjectType.PROFESSIONAL
         );
 
         _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
@@ -105,7 +105,7 @@ public class ProjectRepositoryTests
                 description: "Description 1",
                 startDate: DateTime.UtcNow,
                 endDate: DateTime.UtcNow.AddMonths(1),
-                projectType: ProjectType.Professional
+                projectType: ProjectType.PROFESSIONAL
             ),
             Project.Create(
                 ownerId: _owner.Id,
@@ -113,7 +113,7 @@ public class ProjectRepositoryTests
                 description: "Description 2",
                 startDate: DateTime.UtcNow,
                 endDate: DateTime.UtcNow.AddMonths(2),
-                projectType: ProjectType.Personal
+                projectType: ProjectType.PERSONAL
             )
         };
 

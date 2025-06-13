@@ -6,27 +6,16 @@ using TaskHive.Application.Exceptions;
 
 namespace TaskHive.API.Middleware;
 
-public class ErrorHandlingMiddleware
+public class ErrorHandlingMiddleware(
+    RequestDelegate next,
+    ILogger<ErrorHandlingMiddleware> logger,
+    IWebHostEnvironment environment)
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ErrorHandlingMiddleware> _logger;
-    private readonly IWebHostEnvironment _environment;
-
-    public ErrorHandlingMiddleware(
-        RequestDelegate next,
-        ILogger<ErrorHandlingMiddleware> logger,
-        IWebHostEnvironment environment)
-    {
-        _next = next;
-        _logger = logger;
-        _environment = environment;
-    }
-
     public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
         catch (Exception ex)
         {
@@ -43,7 +32,7 @@ public class ErrorHandlingMiddleware
         {
             Status = (int)HttpStatusCode.InternalServerError,
             Title = "An error occurred while processing your request.",
-            Detail = _environment.IsDevelopment() ? exception.Message : "An unexpected error occurred."
+            Detail = environment.IsDevelopment() ? exception.Message : "An unexpected error occurred."
         };
 
         switch (exception)
@@ -85,8 +74,8 @@ public class ErrorHandlingMiddleware
                 break;
 
             default:
-                // Log unexpected errors
-                _logger.LogError(exception, "An unexpected error occurred");
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                logger.LogError(exception, "An unexpected error occurred");
                 break;
         }
 
@@ -94,7 +83,7 @@ public class ErrorHandlingMiddleware
         problemDetails.Extensions["traceId"] = context.TraceIdentifier;
 
         // Add stack trace in development
-        if (_environment.IsDevelopment())
+        if (environment.IsDevelopment())
         {
             problemDetails.Extensions["stackTrace"] = exception.StackTrace;
         }

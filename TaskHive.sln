@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskHive.Domain", "src\Task
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskHive.Infra", "src\TaskHive.Infra\TaskHive.Infra.csproj", "{4209228D-ADE6-AC52-FF66-0AB02CAF0A7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskHive.IntegrationTests", "tests\TaskHive.IntegrationTests\TaskHive.IntegrationTests.csproj", "{7E6B4134-FD49-D649-3263-68A673BCBF47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{4209228D-ADE6-AC52-FF66-0AB02CAF0A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4209228D-ADE6-AC52-FF66-0AB02CAF0A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4209228D-ADE6-AC52-FF66-0AB02CAF0A7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E6B4134-FD49-D649-3263-68A673BCBF47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E6B4134-FD49-D649-3263-68A673BCBF47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E6B4134-FD49-D649-3263-68A673BCBF47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E6B4134-FD49-D649-3263-68A673BCBF47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +77,7 @@ Global
 		{101C1EE6-83B4-0B81-081E-C4039850970E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{A16F3B1F-6985-0AFD-9C33-17482A92E338} = {1956237E-4EA1-46CD-9F02-0F291C4F7992}
 		{4209228D-ADE6-AC52-FF66-0AB02CAF0A7F} = {605FEB71-94FE-48CF-88FB-99290821B4E4}
+		{7E6B4134-FD49-D649-3263-68A673BCBF47} = {9E645DE6-DAEA-496C-9CD2-FAC4CC92061E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {834E9E50-216C-404D-AFD4-9C0A78C5F3C1}

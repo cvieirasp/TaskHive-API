@@ -25,8 +25,7 @@ public class SendVerificationEmailUseCase(
         await tokenRepository.AddAsync(verificationToken, cancellationToken);
 
         // Send verification email
-        var baseUrl = "http://localhost:3000";
-        var verificationLink = $"{baseUrl}/validate-email?token={token}";
+        var verificationLink = $"/validate-email?token={token}";
         await emailService.SendVerificationEmailAsync(user.Email, verificationLink, cancellationToken);
     }
 } 

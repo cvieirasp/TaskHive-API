@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using TaskHive.Application.DTOs;
 using TaskHive.Application.UseCases.Users;
 
@@ -46,9 +47,11 @@ public class AuthController(
     }
 
     [HttpPost("signin")]
+    [EnableRateLimiting("SignInPolicy")]
     [ProducesResponseType(typeof(SignInResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status429TooManyRequests)]
     public async Task<IActionResult> SignIn([FromBody] SignInRequest request, CancellationToken cancellationToken)
     {
         var response = await signInUseCase.ExecuteAsync(

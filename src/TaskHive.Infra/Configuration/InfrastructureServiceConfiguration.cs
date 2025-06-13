@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using Resend;
-using System;
 using System.Text;
 using TaskHive.Domain.Repositories;
 using TaskHive.Domain.Services;
@@ -15,7 +16,7 @@ namespace TaskHive.Infrastructure.Configuration;
 
 public static class InfrastructureServiceConfiguration
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
         // Register Npgsql connection as scoped
         services.AddScoped(sp =>
@@ -29,7 +30,8 @@ public static class InfrastructureServiceConfiguration
             var uri = new Uri(url);
             var userInfo = uri.UserInfo.Split(':');
 
-            var connectionString = $"Host={uri.Host};Port={uri.Port};Username={userInfo[0]};Password={userInfo[1]};Database={uri.AbsolutePath.TrimStart('/')};Ssl Mode=Require;Trust Server Certificate=true;";
+            var connectionString = $"Host={uri.Host};Port={uri.Port};Username={userInfo[0]};Password={userInfo[1]};Database={uri.AbsolutePath.TrimStart('/')};";
+            if (environment.IsProduction()) connectionString += "Ssl Mode=Require;Trust Server Certificate=true;";
             return new NpgsqlConnection(connectionString);
         });
 

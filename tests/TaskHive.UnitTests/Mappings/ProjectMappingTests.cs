@@ -29,7 +29,7 @@ public class ProjectMappingTests
             description: "Test Description",
             startDate: DateTime.UtcNow,
             endDate: DateTime.UtcNow.AddMonths(1),
-            projectType: ProjectType.Professional
+            projectType: ProjectType.PROFESSIONAL
         );
 
         _readerMock = new Mock<IDataReader>();
@@ -70,7 +70,7 @@ public class ProjectMappingTests
             description: "Completed Description",
             startDate: DateTime.UtcNow.AddMonths(-1),
             endDate: DateTime.UtcNow,
-            projectType: ProjectType.Professional
+            projectType: ProjectType.PROFESSIONAL
         );
         completedProject.Complete();
 
@@ -81,7 +81,7 @@ public class ProjectMappingTests
 
         // Assert
         result.Should().NotBeNull();
-        result.ProjectStatus.Should().Be(ProjectStatus.Completed);
+        result.ProjectStatus.Should().Be(ProjectStatus.COMPLETED);
         result.CompletedAt.Should().NotBeNull();
         result.CompletedAt.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
     }
@@ -122,7 +122,7 @@ public class ProjectMappingTests
             description: "Completed Description",
             startDate: DateTime.UtcNow.AddMonths(-1),
             endDate: DateTime.UtcNow,
-            projectType: ProjectType.Professional
+            projectType: ProjectType.PROFESSIONAL
         );
         completedProject.Complete();
 
